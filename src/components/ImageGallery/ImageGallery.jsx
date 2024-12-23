@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import ImageCard from "../ImageCard/ImageCard.jsx";
-import styles from "./ImageGallery.module.css";
+import s from "./ImageGallery.module.css";
 
-const ImageGallery = ({ images }) => (
-  <ul className={styles.gallery}>
+const ImageGallery = ({ images, onImageClick }) => (
+  <ul className={s.gallery}>
     {images.map((image) => (
-      <li key={image.id}>
+      <li key={image.id} onClick={() => onImageClick(image)}>
         <ImageCard image={image} />
       </li>
     ))}
@@ -18,6 +18,7 @@ ImageGallery.propTypes = {
       id: PropTypes.string.isRequired,
     })
   ).isRequired,
+  onImageClick: PropTypes.func.isRequired,
 };
 
 export default ImageGallery;

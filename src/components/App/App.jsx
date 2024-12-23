@@ -2,29 +2,77 @@ import { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import ImageGallery from "../ImageGallery/ImageGallery.jsx";
 import Loader from "../Loader/Loader.jsx";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.jsx";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn.jsx";
+import ImageModal from "../ImageModal/ImageModal.jsx";
 import { searchImages } from "../../api/unsplashApi";
 
 const App = () => {
   const [images, setImages] = useState([]);
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const handleSearch = async (query) => {
+  const handleSearch = async (newQuery) => {
+    setQuery(newQuery);
+    setPage(1);
+    setImages([]);
+    fetchImages(newQuery, 1);
+  };
+
+  const fetchImages = async (searchQuery, pageNumber) => {
     setLoading(true);
+    setError(null);
     try {
-      const data = await searchImages(query);
-      setImages(data.results);
+      const data = await searchImages(searchQuery, pageNumber);
+      setImages((prevImages) => [...prevImages, ...data.results]);
     } catch (error) {
-      console.error("Error fetching images:", error);
+      setError("Something went wrong. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
+  const handleLoadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchImages(query, nextPage);
+  };
+
+  const openModal = (image) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
   return (
     <div>
       <SearchBar onSubmit={handleSearch} />
-      <ImageGallery images={images} />
-      {loading && <Loader />}
+      {error ? (
+        <ErrorMessage message={error} />
+      ) : (
+        <>
+          <ImageGallery images={images} onImageClick={openModal} />
+          {loading && <Loader />}
+          {images.length > 0 && !loading && (
+            <LoadMoreBtn onClick={handleLoadMore} />
+          )}
+        </>
+      )}
+      {selectedImage && (
+        <ImageModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          image={selectedImage}
+        />
+      )}
     </div>
   );
 };
