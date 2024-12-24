@@ -30,6 +30,7 @@ const App = () => {
       const data = await searchImages(searchQuery, pageNumber);
       setImages((prevImages) => [...prevImages, ...data.results]);
     } catch (error) {
+      console.log(error);
       setError("Something went wrong. Please try again later.");
     } finally {
       setLoading(false);

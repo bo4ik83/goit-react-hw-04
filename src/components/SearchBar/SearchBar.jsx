@@ -23,23 +23,25 @@ const SearchBar = ({ onSubmit }) => {
   };
 
   return (
-    <header className={s.SearchBar}>
-      <Toaster position="top-right" reverseOrder={false} />
-      <form className={s.form} onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={query}
-          onChange={handleChange}
-          className={s.input}
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-        />
-        <button type="submit" className={s.button}>
-          Search
-        </button>
-      </form>
-    </header>
+    <div className={s.header}>
+      <header className={s.searchBar}>
+        <Toaster position="top-right" reverseOrder={false} />
+        <form className={s.form} onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={query}
+            onChange={handleChange}
+            className={s.input}
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+          />
+          <button type="submit" className={s.button}>
+            Search
+          </button>
+        </form>
+      </header>
+    </div>
   );
 };
 
