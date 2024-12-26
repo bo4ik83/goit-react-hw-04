@@ -15,7 +15,7 @@ const imageModal = ({ isOpen, onClose, image }) => {
       <div className={s.content}>
         <img src={image.urls.regular} alt={image.alt_description} />
         <button onClick={onClose} className={s.closeButton}>
-          Close
+          X
         </button>
       </div>
     </Modal>
