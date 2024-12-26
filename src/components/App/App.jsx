@@ -17,10 +17,12 @@ const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleSearch = async (newQuery) => {
-    setQuery(newQuery);
-    setPage(1);
-    setImages([]);
-    fetchImages(newQuery, 1);
+    if (newQuery !== query) {
+      setQuery(newQuery);
+      setPage(1);
+      setImages([]);
+      fetchImages(newQuery, 1);
+    }
   };
 
   const fetchImages = async (searchQuery, pageNumber) => {
@@ -30,22 +32,24 @@ const App = () => {
       const data = await searchImages(searchQuery, pageNumber);
       setImages((prevImages) => [...prevImages, ...data.results]);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError("Something went wrong. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleLoadMore = () => {
+  const handleLoadMore = async () => {
     const nextPage = page + 1;
     setPage(nextPage);
-    fetchImages(query, nextPage);
+    await fetchImages(query, nextPage);
   };
 
   const openModal = (image) => {
-    setSelectedImage(image);
-    setIsModalOpen(true);
+    if (!isModalOpen) {
+      setSelectedImage(image);
+      setIsModalOpen(true);
+    }
   };
 
   const closeModal = () => {
@@ -67,7 +71,7 @@ const App = () => {
           )}
         </>
       )}
-      {selectedImage && (
+      {isModalOpen && selectedImage && (
         <ImageModal
           isOpen={isModalOpen}
           onClose={closeModal}
