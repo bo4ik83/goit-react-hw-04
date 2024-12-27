@@ -5,6 +5,8 @@ import s from "./ImageModal.module.css";
 Modal.setAppElement("#root");
 
 const ImageModal = ({ isOpen, onClose, image }) => {
+  if (!image) return null;
+
   return (
     <Modal
       isOpen={isOpen}
@@ -13,7 +15,13 @@ const ImageModal = ({ isOpen, onClose, image }) => {
       overlayClassName={s.overlay}
     >
       <div className={s.content}>
-        <img src={image.urls.regular} alt={image.alt_description} />
+        <img
+          src={image.urls.regular}
+          alt={image.alt_description || "Image preview"}
+          onError={(e) => {
+            e.target.src = "fallback-image-url.jpg";
+          }}
+        />
         <button onClick={onClose} className={s.closeButton}>
           X
         </button>

@@ -46,15 +46,14 @@ const App = () => {
   };
 
   const openModal = (image) => {
-    if (!isModalOpen) {
-      setSelectedImage(image);
-      setIsModalOpen(true);
-    }
+    if (isModalOpen) return; // Проверка на повторное открытие
+    setSelectedImage(image);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
     setSelectedImage(null);
+    setIsModalOpen(false);
   };
 
   return (
