@@ -4,7 +4,7 @@ import s from "./ImageModal.module.css";
 
 Modal.setAppElement("#root");
 
-const imageModal = ({ isOpen, onClose, image }) => {
+const ImageModal = ({ isOpen, onClose, image }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -22,7 +22,7 @@ const imageModal = ({ isOpen, onClose, image }) => {
   );
 };
 
-imageModal.propTypes = {
+ImageModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   image: PropTypes.shape({
@@ -33,4 +33,4 @@ imageModal.propTypes = {
   }),
 };
 
-export default imageModal;
+export default ImageModal;

@@ -13,18 +13,20 @@
 .modal {
   position: relative;
   background: white;
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 8px;
+  padding: 0; /* Видалено паддінг, щоб зображення зайняло весь простір */
   max-width: 90%;
   max-height: 90%;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .content img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16/9;
-  object-fit: cover;
+  width: 100%; /* Займає всю ширину модального вікна */
+  height: 100%; /* Займає всю висоту модального вікна */
+  object-fit: contain; /* Зберігає пропорції зображення */
 }
 
 .closeButton {
@@ -33,6 +35,8 @@
   right: 10px;
   background: yellowgreen;
   border: none;
-  font-size: 10px;
+  font-size: 14px;
   cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
 }
